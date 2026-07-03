@@ -4,9 +4,9 @@ body {
     height: 100vh;
 
     display: flex;
-    flex-direction: column;      /* elementi uno sotto l'altro */
-    justify-content: center;     /* centrati verticalmente */
-    align-items: center;         /* centrati orizzontalmente */
+    flex-direction: column;     
+    justify-content: center;   
+    align-items: center;         
 
     font-family: 'Roboto', sans-serif;
     background-color: #ffffff;
