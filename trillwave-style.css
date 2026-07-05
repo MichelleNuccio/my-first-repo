@@ -1,0 +1,302 @@
+/* Trillwave v2: Memphis rap tape cover, Pen & Pixel, VHS, purple/gold */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    cursor: crosshair;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 38px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    overflow-x: hidden;
+
+    color: #ffffff;
+    text-align: center;
+    font-family: Impact, "Arial Black", Haettenschweiler, sans-serif;
+
+    background-color: #050006;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        radial-gradient(circle at 50% 18%, rgba(164, 60, 255, 0.65), transparent 30%),
+        radial-gradient(circle at 18% 72%, rgba(255, 215, 0, 0.18), transparent 24%),
+        radial-gradient(circle at 82% 72%, rgba(255, 215, 0, 0.18), transparent 24%),
+        linear-gradient(135deg, #110018 0%, #2b004e 42%, #000000 78%);
+    background-size: 18px 18px, 18px 18px, auto, auto, auto, auto;
+}
+
+body::before {
+    content: "RARE_UPLOAD_2013.mp3   00:00:13:37   VHS";
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 4;
+    padding: 7px 10px;
+
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.78);
+    color: #f4d46b;
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-align: left;
+    text-shadow: 2px 0 #7b00ff, -2px 0 #00eaff;
+    box-shadow: 0 0 24px rgba(123, 0, 255, 0.7);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.08) 0,
+            rgba(255, 255, 255, 0.08) 1px,
+            transparent 1px,
+            transparent 6px
+        ),
+        linear-gradient(90deg, rgba(255, 0, 255, 0.08), rgba(0, 255, 255, 0.06));
+    mix-blend-mode: screen;
+    opacity: 0.5;
+}
+
+h1,
+button,
+#messageDisplay {
+    position: relative;
+    z-index: 5;
+}
+
+h1 {
+    width: min(820px, 94vw);
+    margin: 0;
+    padding: 26px 18px 30px;
+
+    border: 5px solid #f4d46b;
+    border-radius: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 26%),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, 0.07) 0,
+            rgba(255, 255, 255, 0.07) 2px,
+            transparent 2px,
+            transparent 8px
+        ),
+        linear-gradient(135deg, #050005 0%, #4b0082 50%, #120018 100%);
+
+    color: transparent;
+    font-size: clamp(44px, 10vw, 96px);
+    line-height: 0.88;
+    text-transform: uppercase;
+    letter-spacing: 0;
+
+    -webkit-text-stroke: 2px #fff2a8;
+    background-clip: padding-box;
+
+    text-shadow:
+        0 2px 0 #ffffff,
+        0 5px 0 #c9951a,
+        0 8px 0 #5d3200,
+        5px 5px 0 #7b00ff,
+        10px 10px 0 #000000,
+        0 0 22px rgba(255, 215, 0, 0.7),
+        0 0 42px rgba(123, 0, 255, 0.85);
+
+    box-shadow:
+        0 0 0 8px #000000,
+        0 0 0 11px #ffffff,
+        14px 14px 0 rgba(0, 0, 0, 0.9),
+        0 0 38px rgba(123, 0, 255, 0.9),
+        inset 0 0 48px rgba(0, 0, 0, 0.55);
+    filter: contrast(1.2) saturate(1.2);
+}
+
+h1::before {
+    content: "✞  TRILL ERA  ✞";
+    display: block;
+    margin-bottom: 12px;
+
+    color: #ffffff;
+    -webkit-text-stroke: 0;
+    font-family: "Courier New", monospace;
+    font-size: clamp(13px, 3vw, 18px);
+    line-height: 1.2;
+    letter-spacing: 4px;
+    text-shadow:
+        2px 0 #ff00ff,
+        -2px 0 #00ffff,
+        0 0 16px #ffffff;
+}
+
+h1::after {
+    content: "MEMPHIS / HOUSTON / SOUNDCLOUD";
+    display: block;
+    margin-top: 14px;
+
+    color: #d9c7ff;
+    -webkit-text-stroke: 0;
+    font-family: "Courier New", monospace;
+    font-size: clamp(11px, 2.8vw, 15px);
+    line-height: 1.4;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000000;
+}
+
+button {
+    min-width: 245px;
+    padding: 16px 28px;
+
+    border: 4px outset #f4d46b;
+    border-radius: 0;
+    background:
+        linear-gradient(180deg, #ffffff 0%, #ffe98a 16%, #b57910 42%, #3a005f 43%, #110018 100%);
+    color: #ffffff;
+
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    text-shadow:
+        2px 2px 0 #000000,
+        0 0 12px #7b00ff;
+    box-shadow:
+        7px 7px 0 #000000,
+        0 0 24px rgba(255, 215, 0, 0.65),
+        inset 0 0 18px rgba(255, 255, 255, 0.22);
+    image-rendering: pixelated;
+}
+
+button::before {
+    content: "[ ";
+    color: #f4d46b;
+}
+
+button::after {
+    content: " ]";
+    color: #f4d46b;
+}
+
+button:hover {
+    transform: translate(3px, 3px) skew(-2deg);
+    border-style: inset;
+    background:
+        linear-gradient(180deg, #7b00ff 0%, #210033 48%, #000000 100%);
+    color: #f4d46b;
+    box-shadow:
+        3px 3px 0 #000000,
+        0 0 34px rgba(123, 0, 255, 1);
+    filter: contrast(1.35) saturate(1.5);
+}
+
+button:active {
+    transform: translate(7px, 7px);
+    box-shadow: 1px 1px 0 #000000;
+}
+
+#messageDisplay {
+    width: min(680px, 92vw);
+    min-height: 76px;
+    margin-top: 2px;
+    padding: 18px 20px;
+
+    border: 3px double #f4d46b;
+    border-radius: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(220, 210, 255, 0.94)),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.1) 0,
+            rgba(0, 0, 0, 0.1) 2px,
+            transparent 2px,
+            transparent 7px
+        );
+    color: #170024;
+
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+
+    text-shadow: 1px 1px 0 #ffffff;
+    box-shadow:
+        9px 9px 0 #000000,
+        0 0 26px rgba(244, 212, 107, 0.55);
+}
+
+#messageDisplay::before {
+    content: "SOUNDCLOUD STATUS";
+    display: block;
+    margin-bottom: 8px;
+
+    color: #6d00a8;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: 3px;
+    text-shadow: none;
+}
+
+#messageDisplay:empty::after {
+    content: "purple tape buffering...";
+    color: #4b0082;
+}
+
+a {
+    color: #f4d46b;
+    text-decoration: underline;
+    text-shadow: 0 0 12px rgba(244, 212, 107, 0.9);
+}
+
+a:visited {
+    color: #b58cff;
+}
+
+::selection {
+    background: #f4d46b;
+    color: #000000;
+}
+
+@media (max-width: 520px) {
+    body {
+        justify-content: flex-start;
+        padding-top: 62px;
+    }
+
+    body::before {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    h1 {
+        padding: 22px 12px 26px;
+        -webkit-text-stroke-width: 1px;
+    }
+
+    button {
+        width: min(310px, 90vw);
+        min-width: 0;
+        font-size: 13px;
+    }
+
+    #messageDisplay {
+        font-size: 20px;
+    }
+}

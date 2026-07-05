@@ -1,0 +1,285 @@
+/* Webcore anni 2000: Windows XP, pop-up, pixel art, browser vintage */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    cursor: default;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 34px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+
+    color: #111111;
+    text-align: center;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+
+    background-color: #3a9bff;
+    background-image:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.95) 0 7%, transparent 8%),
+        radial-gradient(circle at 78% 28%, rgba(255, 255, 255, 0.75) 0 5%, transparent 6%),
+        linear-gradient(180deg, #60b8ff 0%, #96dcff 44%, #39b54a 45%, #1f8c35 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "Internet Explorer - My Webcore Homepage";
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 4;
+    height: 30px;
+    padding: 6px 10px 6px 38px;
+
+    border: 2px solid #003399;
+    border-radius: 7px 7px 0 0;
+    background:
+        linear-gradient(180deg, #5aa6ff 0%, #0058d8 48%, #003399 100%);
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: bold;
+    text-align: left;
+    text-shadow: 1px 1px 0 #001a66;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.32);
+}
+
+body::after {
+    content: "START  |  guestbook.html  |  downloads.zip  |  online";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    padding: 7px 12px;
+
+    border-top: 2px solid #7db6ff;
+    background:
+        linear-gradient(180deg, #245edb 0%, #1747a6 50%, #0c2f73 100%);
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    text-shadow: 1px 1px 0 #000000;
+}
+
+h1,
+button,
+#messageDisplay {
+    position: relative;
+    z-index: 5;
+}
+
+h1 {
+    width: min(760px, 94vw);
+    margin: 0;
+    padding: 52px 18px 28px;
+
+    border: 2px solid #003399;
+    border-radius: 0 0 7px 7px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, #eef6ff 50%, #d5e9ff 100%);
+    color: #0046c7;
+
+    font-family: "Trebuchet MS", Tahoma, Verdana, sans-serif;
+    font-size: clamp(34px, 8vw, 72px);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+
+    text-shadow:
+        2px 2px 0 #ffffff,
+        4px 4px 0 #9bc9ff;
+
+    box-shadow:
+        6px 6px 0 rgba(0, 0, 0, 0.32),
+        inset 0 0 0 1px #ffffff;
+}
+
+h1::before {
+    content: "File  Edit  View  Favorites  Tools  Help";
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    padding: 5px 10px;
+
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #a7bfe8;
+    background: #ece9d8;
+    color: #111111;
+
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.2;
+    text-align: left;
+    text-transform: none;
+    text-shadow: none;
+}
+
+h1::after {
+    content: "welcome_to_my_page.gif";
+    display: block;
+    margin-top: 12px;
+    padding: 5px 8px;
+
+    border: 1px dashed #ff00ff;
+    background: #ffff99;
+    color: #ff00ff;
+
+    font-family: "Comic Sans MS", "Trebuchet MS", cursive;
+    font-size: clamp(13px, 3vw, 18px);
+    line-height: 1.25;
+    text-transform: lowercase;
+    text-shadow: none;
+}
+
+button {
+    min-width: 230px;
+    padding: 12px 22px;
+
+    border: 2px solid #003c74;
+    border-radius: 4px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, #ddecff 45%, #8ebeff 46%, #2b79e3 100%);
+    color: #002b6d;
+
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow:
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #4b6fb3,
+        4px 4px 0 rgba(0, 0, 0, 0.28);
+}
+
+button::before {
+    content: "▶ ";
+    color: #16a000;
+}
+
+button::after {
+    content: "!";
+    color: #ff0000;
+}
+
+button:hover {
+    background:
+        linear-gradient(180deg, #fff7b8 0%, #ffd75a 48%, #ff9d00 100%);
+    color: #7a2500;
+    outline: 1px dotted #000000;
+    transform: translate(2px, 2px);
+    box-shadow:
+        inset 1px 1px 0 #ffffff,
+        2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    border-style: inset;
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+#messageDisplay {
+    width: min(620px, 92vw);
+    min-height: 76px;
+    margin-top: 2px;
+    padding: 38px 16px 16px;
+
+    border: 2px solid #7f9db9;
+    border-radius: 3px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, #ffffff 70%, #eaf3ff 100%);
+    color: #000000;
+
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    text-align: left;
+
+    box-shadow:
+        5px 5px 0 rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px #ffffff;
+}
+
+#messageDisplay::before {
+    content: "System Message";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 7px 10px;
+
+    border-bottom: 1px solid #003399;
+    border-radius: 2px 2px 0 0;
+    background:
+        linear-gradient(180deg, #1d7dff 0%, #0046c7 100%);
+    color: #ffffff;
+
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    text-shadow: 1px 1px 0 #001a66;
+}
+
+#messageDisplay:empty::after {
+    content: "C:\\Documents\\homepage\\message.txt is waiting...";
+    color: #444444;
+}
+
+a {
+    color: #0000ee;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #551a8b;
+}
+
+::selection {
+    background: #000080;
+    color: #ffffff;
+}
+
+@media (max-width: 520px) {
+    body {
+        justify-content: flex-start;
+        padding-top: 56px;
+        padding-bottom: 48px;
+    }
+
+    body::before {
+        font-size: 11px;
+        padding-left: 10px;
+    }
+
+    h1 {
+        padding-top: 58px;
+    }
+
+    h1::before {
+        font-size: 10px;
+    }
+
+    button {
+        width: min(310px, 90vw);
+        min-width: 0;
+    }
+
+    #messageDisplay {
+        font-size: 15px;
+    }
+}
