@@ -1,14 +1,33 @@
-/* Webcore / Internetcore aesthetic */
+/* 
+  Webcore / Internetcore aesthetic
+  Questo foglio di stile ricrea una grafica ispirata al web anni 2000:
+  Windows XP, pop-up, colori saturi, glitch, finestre di sistema e font retro.
+*/
 
+/* 
+  Reset leggero:
+  border-box fa sì che padding e bordo siano inclusi nella larghezza/altezza
+  degli elementi, rendendo il layout più prevedibile.
+*/
 * {
   box-sizing: border-box;
 }
 
+/* 
+  Impostazioni generali della pagina:
+  min-height: 100% aiuta la pagina a occupare tutta l'altezza disponibile.
+  Il cursore crosshair aggiunge un dettaglio "vecchio web / interfaccia digitale".
+*/
 html {
   min-height: 100%;
   cursor: crosshair;
 }
 
+/* 
+  Corpo della pagina:
+  viene usato Flexbox per centrare verticalmente e orizzontalmente
+  titolo, bottone e messaggio.
+*/
 body {
   margin: 0;
   min-height: 100vh;
@@ -18,20 +37,41 @@ body {
   justify-content: center;
   align-items: center;
 
+  /* 
+    Font coerenti con vecchie interfacce Windows e pagine web anni 2000.
+    Se il primo font non è disponibile, il browser passa al successivo.
+  */
   font-family: "MS Sans Serif", "Tahoma", "Verdana", sans-serif;
   color: #000080;
 
+  /* 
+    Sfondo Webcore:
+    - i radial-gradient creano piccoli puntini colorati, simili a decorazioni pixel/glitter;
+    - il linear-gradient ricorda il paesaggio Windows XP: cielo, luce, prato.
+  */
   background:
     radial-gradient(circle at 18% 22%, #ff00ff 0 2px, transparent 3px),
     radial-gradient(circle at 82% 28%, #00ffff 0 2px, transparent 3px),
     radial-gradient(circle at 64% 76%, #ffff00 0 2px, transparent 3px),
     linear-gradient(135deg, #3a8dde 0%, #7fdfff 38%, #ffffff 39%, #76c85a 62%, #228b22 100%);
+
+  /* 
+    Ogni livello dello sfondo ha una dimensione diversa:
+    questo evita un pattern troppo regolare e dà un effetto più "web collage".
+  */
   background-size: 42px 42px, 56px 56px, 70px 70px, cover;
 
+  /* 
+    Nasconde eventuali elementi decorativi che uscirebbero dallo schermo.
+  */
   overflow: hidden;
 }
 
-/* Finestra stile Windows XP */
+/* 
+  Finestra stile Windows XP:
+  body::before crea un elemento decorativo senza aggiungere HTML.
+  Qui viene simulata una finestra di sistema dietro al contenuto principale.
+*/
 body::before {
   content: "C:\\WEBCORE\\HELLO_WORLD.EXE";
   position: absolute;
@@ -42,6 +82,9 @@ body::before {
   width: min(460px, 88vw);
   height: 260px;
 
+  /* 
+    Il padding superiore lascia spazio alla barra blu della finta finestra.
+  */
   padding: 28px 16px 16px;
 
   color: white;
@@ -49,19 +92,33 @@ body::before {
   font-weight: bold;
   line-height: 20px;
 
+  /* 
+    Il primo background crea la barra superiore blu;
+    il secondo colore riempie il corpo della finestra con il beige/grigio XP.
+  */
   background:
     linear-gradient(#0066cc, #004a99) top / 100% 24px no-repeat,
     #ece9d8;
 
+  /* 
+    Bordo e ombre simulano il rilievo tipico delle vecchie UI desktop.
+  */
   border: 2px solid #003399;
   box-shadow:
     inset 2px 2px 0 #ffffff,
     inset -2px -2px 0 #808080,
     8px 8px 0 rgba(0, 0, 0, 0.35);
+
+  /* 
+    z-index negativo manda la finestra dietro agli elementi reali della pagina.
+  */
   z-index: -1;
 }
 
-/* Mini pop-up decorativo */
+/* 
+  Mini pop-up decorativo:
+  body::after crea un secondo elemento finto, simile a un alert o popup anni 2000.
+*/
 body::after {
   content: "!!!";
   position: absolute;
@@ -79,13 +136,26 @@ body::after {
   font-weight: bold;
   color: #ff0000;
 
+  /* 
+    Giallo chiaro, bordo outset e ombra netta:
+    combinazione tipica da popup/alert old internet.
+  */
   background: #ffffcc;
   border: 2px outset #ffffff;
   box-shadow: 5px 5px 0 #000;
+
+  /* 
+    La rotazione rende il popup più giocoso e meno "perfetto".
+    L'animazione lo fa vibrare a scatti.
+  */
   transform: rotate(7deg);
   animation: popupWiggle 1.2s steps(2, end) infinite;
 }
 
+/* 
+  Titolo principale:
+  usa colori molto saturi e contrastati, tipici di banner e loghi Webcore.
+*/
 h1 {
   margin: 0 0 22px;
   padding: 10px 18px;
@@ -99,14 +169,25 @@ h1 {
   background: #000080;
   border: 3px ridge #ffffff;
 
+  /* 
+    Ombre colorate sfalsate:
+    creano un effetto glitch/RGB, molto usato nelle grafiche webcore.
+  */
   text-shadow:
     2px 2px 0 #ff00ff,
     -2px -2px 0 #00ffff,
     4px 4px 0 #000000;
 
+  /* 
+    Animazione a scatti per simulare instabilità digitale.
+  */
   animation: glitchText 1.6s steps(2, end) infinite;
 }
 
+/* 
+  Bottone:
+  riprende i vecchi bottoni grigi delle interfacce Windows.
+*/
 button {
   position: relative;
 
@@ -124,6 +205,11 @@ button {
   box-shadow: 4px 4px 0 #000000;
 }
 
+/* 
+  Stato hover del bottone:
+  quando ci passi sopra, il bottone diventa più rumoroso e colorato,
+  con un pattern diagonale molto "early web".
+*/
 button:hover {
   color: #ffffff;
   background:
@@ -136,17 +222,30 @@ button:hover {
   text-shadow: 1px 1px 0 #000;
 }
 
+/* 
+  Stato active:
+  quando clicchi, il bottone sembra premuto grazie al bordo inset
+  e allo spostamento verso basso/destra.
+*/
 button:active {
   border-style: inset;
   transform: translate(3px, 3px);
   box-shadow: 1px 1px 0 #000000;
 }
 
+/* 
+  Cursore lampeggiante dopo il testo del bottone:
+  ricorda terminali, campi di testo e interfacce digitali obsolete.
+*/
 button::after {
   content: "_";
   animation: blink 0.7s steps(1, end) infinite;
 }
 
+/* 
+  Area del messaggio:
+  assomiglia a un terminale o a una console, con testo verde su nero.
+*/
 #messageDisplay {
   margin-top: 24px;
   padding: 8px 14px;
@@ -160,12 +259,20 @@ button::after {
   box-shadow: 0 0 12px #00ff00;
 }
 
+/* 
+  Animazione del cursore:
+  a metà ciclo l'elemento diventa invisibile.
+*/
 @keyframes blink {
   50% {
     opacity: 0;
   }
 }
 
+/* 
+  Animazione glitch del titolo:
+  alterna piccoli spostamenti e filtri colore per simulare distorsione digitale.
+*/
 @keyframes glitchText {
   0%, 100% {
     transform: translate(0, 0);
@@ -187,6 +294,10 @@ button::after {
   }
 }
 
+/* 
+  Animazione del popup:
+  cambia rotazione e posizione a scatti, come una finestra fastidiosa anni 2000.
+*/
 @keyframes popupWiggle {
   0%, 100% {
     transform: rotate(7deg) translate(0, 0);
