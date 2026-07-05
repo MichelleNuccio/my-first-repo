@@ -1,0 +1,198 @@
+/* Webcore / Internetcore aesthetic */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  cursor: crosshair;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "MS Sans Serif", "Tahoma", "Verdana", sans-serif;
+  color: #000080;
+
+  background:
+    radial-gradient(circle at 18% 22%, #ff00ff 0 2px, transparent 3px),
+    radial-gradient(circle at 82% 28%, #00ffff 0 2px, transparent 3px),
+    radial-gradient(circle at 64% 76%, #ffff00 0 2px, transparent 3px),
+    linear-gradient(135deg, #3a8dde 0%, #7fdfff 38%, #ffffff 39%, #76c85a 62%, #228b22 100%);
+  background-size: 42px 42px, 56px 56px, 70px 70px, cover;
+
+  overflow: hidden;
+}
+
+/* Finestra stile Windows XP */
+body::before {
+  content: "C:\\WEBCORE\\HELLO_WORLD.EXE";
+  position: absolute;
+  top: calc(50% - 150px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(460px, 88vw);
+  height: 260px;
+
+  padding: 28px 16px 16px;
+
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+
+  background:
+    linear-gradient(#0066cc, #004a99) top / 100% 24px no-repeat,
+    #ece9d8;
+
+  border: 2px solid #003399;
+  box-shadow:
+    inset 2px 2px 0 #ffffff,
+    inset -2px -2px 0 #808080,
+    8px 8px 0 rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
+/* Mini pop-up decorativo */
+body::after {
+  content: "!!!";
+  position: absolute;
+  right: 18%;
+  top: 24%;
+
+  width: 78px;
+  height: 54px;
+
+  display: grid;
+  place-items: center;
+
+  font-family: "Courier New", monospace;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff0000;
+
+  background: #ffffcc;
+  border: 2px outset #ffffff;
+  box-shadow: 5px 5px 0 #000;
+  transform: rotate(7deg);
+  animation: popupWiggle 1.2s steps(2, end) infinite;
+}
+
+h1 {
+  margin: 0 0 22px;
+  padding: 10px 18px;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(32px, 5vw, 56px);
+  color: #ffff00;
+  text-align: center;
+  text-transform: uppercase;
+
+  background: #000080;
+  border: 3px ridge #ffffff;
+
+  text-shadow:
+    2px 2px 0 #ff00ff,
+    -2px -2px 0 #00ffff,
+    4px 4px 0 #000000;
+
+  animation: glitchText 1.6s steps(2, end) infinite;
+}
+
+button {
+  position: relative;
+
+  padding: 10px 22px;
+
+  font-family: "MS Sans Serif", "Tahoma", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+
+  background: linear-gradient(#ffffff, #c0c0c0);
+  border: 3px outset #ffffff;
+
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+button:hover {
+  color: #ffffff;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #ff00ff 0 8px,
+      #00ffff 8px 16px,
+      #ffff00 16px 24px
+    );
+  text-shadow: 1px 1px 0 #000;
+}
+
+button:active {
+  border-style: inset;
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 #000000;
+}
+
+button::after {
+  content: "_";
+  animation: blink 0.7s steps(1, end) infinite;
+}
+
+#messageDisplay {
+  margin-top: 24px;
+  padding: 8px 14px;
+
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  color: #00ff00;
+
+  background: #000000;
+  border: 2px dashed #00ff00;
+  box-shadow: 0 0 12px #00ff00;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitchText {
+  0%, 100% {
+    transform: translate(0, 0);
+    filter: none;
+  }
+
+  25% {
+    transform: translate(2px, -1px);
+    filter: hue-rotate(45deg);
+  }
+
+  50% {
+    transform: translate(-2px, 1px);
+    filter: contrast(160%);
+  }
+
+  75% {
+    transform: translate(1px, 2px);
+  }
+}
+
+@keyframes popupWiggle {
+  0%, 100% {
+    transform: rotate(7deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-3deg) translate(3px, -2px);
+  }
+}
