@@ -1,8 +1,8 @@
-# Fuchsia Hacker Terminal Style Specification
+# PINK HACKER TERMINAL STYLE SPECIFICATION
 
 ## Overview
 
-This CSS defines a **Fuchsia Hacker Terminal** aesthetic: a dark cyber interface inspired by terminal screens, hacked desktops, CRT monitors, code consoles, and monochrome data systems.
+This CSS defines a **Pink Hacker Terminal** aesthetic: a dark cyber interface inspired by terminal screens, hacked desktops, CRT monitors, code consoles, and monochrome data systems.
 
 The style is based on a limited palette: black, deep purple, bright fuchsia, and soft pink highlights. The final look should feel like a compromised computer screen glowing in a dark room.
 
@@ -327,6 +327,6 @@ Components that would fit this aesthetic:
 
 ## Summary
 
-This CSS creates a **dark fuchsia hacker terminal interface**. Its identity comes from monochrome neon color, monospace typography, fake system panels, CRT scanlines, command syntax, and glowing terminal components.
+This CSS creates a **pink hacker terminal interface**. Its identity comes from monochrome neon color, monospace typography, fake system panels, CRT scanlines, command syntax, and glowing terminal components.
 
 The style should feel technical, compromised, digital, and atmospheric: like a hacked computer screen rendered as a web page.
