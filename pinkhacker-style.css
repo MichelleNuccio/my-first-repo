@@ -1,0 +1,428 @@
+/* 
+  Fuchsia Hacker Terminal
+  Aesthetic: monochrome hacker interface, compromised terminal,
+  fuchsia glow, data windows, and CRT screen effects.
+*/
+
+/* 
+  Global reset:
+  border-box makes element sizing easier because padding and borders
+  are included inside the declared width and height.
+*/
+* {
+  box-sizing: border-box;
+}
+
+/* 
+  Page root:
+  min-height helps the page fill the available screen height.
+  The crosshair cursor adds a technical, hacker-interface feeling.
+*/
+html {
+  min-height: 100%;
+  cursor: crosshair;
+}
+
+/* 
+  Main page body:
+  Flexbox centers the page content vertically and horizontally.
+  The whole screen is treated like a fuchsia terminal on a black monitor.
+*/
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 58px 16px 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+
+  /* Monospace fonts make the interface feel like code or a terminal. */
+  font-family: "Courier New", "Lucida Console", Monaco, monospace;
+  color: #ff2bd6;
+  text-align: center;
+
+  /* 
+    Background system:
+    - deep black base;
+    - thin fuchsia grid;
+    - radial neon glows;
+    - dark purple/black gradient for depth.
+  */
+  background-color: #080006;
+  background-image:
+    linear-gradient(rgba(255, 43, 214, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 43, 214, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 70% 24%, rgba(255, 43, 214, 0.22), transparent 18%),
+    radial-gradient(circle at 28% 70%, rgba(255, 43, 214, 0.16), transparent 24%),
+    linear-gradient(135deg, #190014 0%, #000000 46%, #24001c 100%);
+  background-size: 28px 28px, 28px 28px, auto, auto, auto;
+}
+
+/* 
+  body::before:
+  Creates a decorative terminal/data window in the background.
+  This is generated with CSS only, so no extra HTML is required.
+*/
+body::before {
+  /* 
+    Multi-line fake terminal text.
+    \A creates line breaks inside content.
+    white-space: pre makes those line breaks visible.
+  */
+  content:
+    "Program Console\A"
+    "root@system:~$ scanning ports...\A"
+    "compiling code  █ █ █ █\A"
+    "network storage: active\A"
+    ">>> DATA: I FOUND YOU\A"
+    "access_level = root";
+  white-space: pre;
+
+  /* Fixed positioning keeps the fake panel on screen. */
+  position: fixed;
+  inset: 18px 18px auto 18px;
+  z-index: 3;
+  height: 42vh;
+  padding: 14px;
+
+  /* 
+    Border, title-bar gradient, and vertical data lines
+    simulate a monitoring window or system console.
+  */
+  border: 1px solid #ff2bd6;
+  background:
+    linear-gradient(180deg, rgba(255, 43, 214, 0.18) 0 22px, rgba(0, 0, 0, 0.78) 22px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 43, 214, 0.08) 0 2px,
+      transparent 2px 10px
+    );
+  color: rgba(255, 43, 214, 0.82);
+
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: left;
+
+  /* Glow and transparency make the panel feel projected on a CRT screen. */
+  text-shadow: 0 0 8px #ff2bd6;
+  box-shadow:
+    inset 0 0 22px rgba(255, 43, 214, 0.18),
+    0 0 28px rgba(255, 43, 214, 0.28);
+  opacity: 0.72;
+}
+
+/* 
+  body::after:
+  Adds CRT scanlines and dark screen edges.
+*/
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+
+  /* 
+    The repeating gradient creates horizontal monitor lines.
+    The radial gradient darkens the edges and keeps attention in the center.
+  */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 43, 214, 0.12) 0,
+      rgba(255, 43, 214, 0.12) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    radial-gradient(circle at center, transparent 0 42%, rgba(0, 0, 0, 0.42) 78%, rgba(0, 0, 0, 0.9) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.62;
+}
+
+/* Main content sits above the decorative overlays. */
+h1,
+button,
+#messageDisplay {
+  position: relative;
+  z-index: 6;
+}
+
+/* 
+  Main heading:
+  Works as the central hacked-system message.
+*/
+h1 {
+  width: min(780px, 94vw);
+  margin: 0;
+  padding: 30px 18px;
+
+  /* Thin neon border and internal scanlines. */
+  border: 1px solid #ff2bd6;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 43, 214, 0.1) 0 2px,
+      transparent 2px 7px
+    ),
+    rgba(0, 0, 0, 0.88);
+  color: #ff2bd6;
+
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: clamp(38px, 8vw, 84px);
+  line-height: 1.05;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  /* Multiple shadows create neon glow and slight glitch separation. */
+  text-shadow:
+    0 0 8px #ff2bd6,
+    0 0 18px #ff2bd6,
+    3px 0 0 rgba(255, 184, 244, 0.35),
+    -3px 0 0 rgba(100, 0, 78, 0.8);
+
+  /* Outer and inner shadows make the heading feel like a lit display panel. */
+  box-shadow:
+    0 0 0 6px rgba(0, 0, 0, 0.82),
+    0 0 34px rgba(255, 43, 214, 0.55),
+    inset 0 0 24px rgba(255, 43, 214, 0.18);
+
+  /* Flicker animation makes the terminal feel unstable. */
+  animation: terminalFlicker 1.6s steps(2, end) infinite;
+}
+
+/* Label above the heading, styled like a terminal status line. */
+h1::before {
+  content: ">_ terminal breach detected";
+  display: block;
+  margin-bottom: 14px;
+
+  color: #ffb8f4;
+  font-size: clamp(12px, 2.8vw, 16px);
+  line-height: 1.2;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  text-shadow: 0 0 10px #ff2bd6;
+}
+
+/* Label below the heading, styled like a system path or access log. */
+h1::after {
+  content: "[ACCESS GRANTED]  /usr/data/ghost-net  ::  0xff2bd6";
+  display: block;
+  margin-top: 14px;
+  padding-top: 10px;
+
+  border-top: 1px dashed rgba(255, 43, 214, 0.65);
+  color: rgba(255, 184, 244, 0.92);
+
+  font-size: clamp(11px, 2.4vw, 14px);
+  line-height: 1.35;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+}
+
+/* 
+  Button:
+  Styled like an executable terminal command.
+*/
+button {
+  min-width: 248px;
+  padding: 13px 24px;
+
+  border: 1px solid #ff2bd6;
+  background:
+    linear-gradient(180deg, rgba(255, 43, 214, 0.2), rgba(0, 0, 0, 0.95)),
+    rgba(0, 0, 0, 0.9);
+  color: #ff2bd6;
+
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  text-shadow: 0 0 10px #ff2bd6;
+  box-shadow:
+    5px 5px 0 #000000,
+    0 0 20px rgba(255, 43, 214, 0.5),
+    inset 0 0 18px rgba(255, 43, 214, 0.12);
+}
+
+/* Adds execute( before the button label. */
+button::before {
+  content: "execute(";
+  color: #ffb8f4;
+}
+
+/* Adds ); after the button label and makes it blink like a cursor. */
+button::after {
+  content: ");";
+  color: #ffb8f4;
+  animation: blink 0.7s steps(1, end) infinite;
+}
+
+/* 
+  Button hover:
+  Turns the button into a loud striped fuchsia/pink/black command surface.
+*/
+button:hover {
+  color: #000000;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ff2bd6 0 8px,
+      #ffb8f4 8px 16px,
+      #1c0016 16px 24px
+    );
+  text-shadow: none;
+  transform: translate(3px, 3px);
+  box-shadow:
+    2px 2px 0 #000000,
+    0 0 28px rgba(255, 43, 214, 0.9);
+}
+
+/* Button active state: moves down/right to feel pressed. */
+button:active {
+  transform: translate(6px, 6px);
+  box-shadow: 1px 1px 0 #000000;
+}
+
+/* 
+  Message display:
+  A terminal/log panel for feedback or generated messages.
+*/
+#messageDisplay {
+  width: min(680px, 92vw);
+  min-height: 112px;
+  margin-top: 4px;
+  padding: 44px 16px 18px;
+
+  border: 1px solid #ff2bd6;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 43, 214, 0.12) 0 2px,
+      transparent 2px 9px
+    ),
+    #000000;
+  color: #ff2bd6;
+
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 16px;
+  text-align: left;
+  text-shadow: 0 0 9px #ff2bd6;
+
+  box-shadow:
+    7px 7px 0 #000000,
+    0 0 26px rgba(255, 43, 214, 0.5),
+    inset 0 0 24px rgba(255, 43, 214, 0.14);
+}
+
+/* Header text inside the message display. */
+#messageDisplay::before {
+  content: "YOU HAVE BEEN HACKED !";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+
+  color: #ff2bd6;
+  font-family: "Courier New", monospace;
+  font-size: clamp(22px, 5vw, 38px);
+  font-weight: bold;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow:
+    0 0 10px #ff2bd6,
+    0 0 22px #ff2bd6;
+}
+
+/* Default placeholder when the message display is empty. */
+#messageDisplay:empty::after {
+  content: "> whoami\Aroot\A> open /data\Apermission granted...";
+  white-space: pre;
+  color: rgba(255, 184, 244, 0.92);
+}
+
+/* Links match the fuchsia terminal palette. */
+a {
+  color: #ffb8f4;
+  text-decoration: underline;
+  text-shadow: 0 0 10px #ff2bd6;
+}
+
+/* Visited links become slightly darker. */
+a:visited {
+  color: #c76cb8;
+}
+
+/* Text selection styling. */
+::selection {
+  background: #ff2bd6;
+  color: #000000;
+}
+
+/* Blinking cursor animation. */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 
+  Terminal flicker animation:
+  Slightly shifts and fades the heading to imitate an unstable monitor.
+*/
+@keyframes terminalFlicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  45% {
+    opacity: 0.86;
+    transform: translate(2px, -1px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-2px, 1px);
+  }
+}
+
+/* 
+  Mobile layout:
+  On small screens, content starts from the top and the page can scroll.
+*/
+@media (max-width: 520px) {
+  body {
+    justify-content: flex-start;
+    padding-top: 58px;
+    overflow-y: auto;
+  }
+
+  /* Reduces the background terminal window on mobile. */
+  body::before {
+    inset: 12px 12px auto 12px;
+    height: 34vh;
+    font-size: 10px;
+  }
+
+  h1 {
+    padding: 26px 12px;
+  }
+
+  button {
+    width: min(315px, 90vw);
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  #messageDisplay {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,386 @@
+/* Y2K Error Glitchcore: try again, 404, test bars, toxic neon collage */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  cursor: crosshair;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 64px 16px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+
+  font-family: "Courier New", "Lucida Console", monospace;
+  color: #ffffff;
+  text-align: center;
+
+  background-color: #09070f;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      #00ff66 0 18px,
+      #00e5ff 18px 36px,
+      #ff2bd6 36px 54px,
+      #fff000 54px 72px,
+      #ff003c 72px 90px,
+      #141414 90px 126px
+    ),
+    radial-gradient(circle at 18% 22%, rgba(210, 184, 255, 0.68), transparent 24%),
+    radial-gradient(circle at 84% 26%, rgba(0, 255, 120, 0.78), transparent 26%),
+    radial-gradient(circle at 70% 78%, rgba(255, 43, 214, 0.62), transparent 28%),
+    linear-gradient(135deg, #101018 0%, #071127 46%, #18091d 100%);
+  background-size: 360px 180px, auto, auto, auto, auto;
+  background-blend-mode: overlay, screen, screen, screen, normal;
+}
+
+/* CRT static and damaged print texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.08) 0,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      115deg,
+      rgba(0, 255, 102, 0.09) 0 2px,
+      rgba(255, 43, 214, 0.09) 2px 4px,
+      rgba(0, 229, 255, 0.09) 4px 6px,
+      transparent 6px 13px
+    ),
+    radial-gradient(circle at 24% 28%, rgba(255, 255, 255, 0.18), transparent 10%),
+    radial-gradient(circle at 78% 64%, rgba(255, 255, 255, 0.12), transparent 12%);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+/* Top “TRY AGAIN?” pixel prompt */
+body::after {
+  content: "TRY AGAIN?";
+  position: fixed;
+  top: 72px;
+  right: 7%;
+  z-index: 7;
+  padding: 8px 10px;
+
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.38);
+  border-bottom: 4px solid #ff003c;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(24px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  text-shadow:
+    3px 0 0 #00e5ff,
+    -3px 0 0 #ff2bd6,
+    0 4px 0 #000000,
+    0 0 16px #ffffff;
+  animation: promptGlitch 1.15s steps(2, end) infinite;
+}
+
+h1,
+button,
+#messageDisplay {
+  position: relative;
+  z-index: 6;
+}
+
+h1 {
+  width: min(790px, 94vw);
+  margin: 0;
+  padding: 32px 18px 34px;
+
+  border: 3px solid #0b0b0b;
+  outline: 4px solid #c7a0ff;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0 28%, rgba(184, 255, 231, 0.28) 28% 55%, rgba(255, 43, 214, 0.22) 55%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1) 0 2px,
+      transparent 2px 7px
+    ),
+    linear-gradient(135deg, #151515 0%, #d8c3ff 38%, #00ff66 39%, #111111 72%);
+  color: #ffffff;
+
+  font-family: Impact, "Arial Black", "Courier New", monospace;
+  font-size: clamp(46px, 11vw, 104px);
+  line-height: 0.82;
+  letter-spacing: 0;
+  text-transform: uppercase;
+
+  text-shadow:
+    4px 0 0 #00e5ff,
+    -4px 0 0 #ff2bd6,
+    0 5px 0 #000000,
+    0 0 22px rgba(255, 255, 255, 0.88);
+
+  box-shadow:
+    12px 12px 0 #000000,
+    -8px -8px 0 #00ff66,
+    0 0 34px rgba(255, 43, 214, 0.75);
+
+  transform: rotate(-0.5deg);
+  overflow: hidden;
+  animation: brokenPoster 1.35s steps(2, end) infinite;
+}
+
+/* Pink error modal title bar */
+h1::before {
+  content: "ERROR";
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: min(310px, 76vw);
+  padding: 8px 10px 54px;
+
+  border: 2px solid #c78bd9;
+  background:
+    linear-gradient(#f9b8ff 0 28px, #ffd8fb 28px);
+  color: #ffffff;
+
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  text-align: left;
+  text-shadow: 1px 1px 0 #b965c5;
+  box-shadow:
+    5px 5px 0 rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(255, 43, 214, 0.6);
+}
+
+/* Error modal message */
+h1::after {
+  content: "✕  You tried your best, but it wasn't enough";
+  position: absolute;
+  left: 50%;
+  top: calc(48% + 28px);
+  transform: translateX(-50%);
+  width: min(282px, 70vw);
+
+  color: #9e72a9;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: none;
+  text-shadow: none;
+}
+
+button {
+  min-width: 248px;
+  padding: 13px 24px;
+
+  border: 2px solid #ffb7fb;
+  background:
+    linear-gradient(180deg, #ffd4fb 0%, #f6a7ff 52%, #d584e6 100%);
+  color: #7a3f88;
+
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: lowercase;
+
+  cursor: pointer;
+  box-shadow:
+    inset 1px 1px 0 #ffffff,
+    inset -1px -1px 0 #a86ab5,
+    6px 6px 0 #000000,
+    0 0 18px rgba(255, 43, 214, 0.8);
+}
+
+button::before {
+  content: "I know  |  ";
+}
+
+button::after {
+  content: "  I'm sorry";
+}
+
+button:hover {
+  color: #000000;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #00ff66 0 10px,
+      #00e5ff 10px 20px,
+      #ff2bd6 20px 30px,
+      #fff000 30px 40px,
+      #ff003c 40px 50px
+    );
+  transform: translate(3px, 3px);
+  box-shadow:
+    3px 3px 0 #000000,
+    0 0 26px rgba(0, 255, 102, 0.92);
+}
+
+button:active {
+  border-style: inset;
+  transform: translate(6px, 6px);
+  box-shadow: 1px 1px 0 #000000;
+}
+
+#messageDisplay {
+  width: min(650px, 92vw);
+  min-height: 118px;
+  margin-top: 4px;
+  padding: 48px 16px 18px;
+
+  border: 3px solid #111111;
+  background:
+    linear-gradient(180deg, #202733 0 34px, #111827 34px),
+    repeating-linear-gradient(
+      90deg,
+      #00ff66 0 18px,
+      #00e5ff 18px 36px,
+      #ff2bd6 36px 54px,
+      #fff000 54px 72px,
+      #ff003c 72px 90px,
+      #171717 90px 126px
+    );
+  background-blend-mode: normal, screen;
+  color: #ffffff;
+
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  text-align: center;
+  text-shadow:
+    2px 0 0 #00e5ff,
+    -2px 0 0 #ff2bd6;
+
+  box-shadow:
+    8px 8px 0 #000000,
+    -6px -6px 0 #c7a0ff,
+    0 0 28px rgba(0, 229, 255, 0.75);
+}
+
+#messageDisplay::before {
+  content: "☹  404";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+
+  color: #ffffff;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: 34px;
+  line-height: 1;
+  text-align: center;
+  text-shadow:
+    3px 0 #00e5ff,
+    -3px 0 #ff2bd6,
+    0 4px #000000;
+}
+
+#messageDisplay:empty::after {
+  content: "PAGE NOT FOUND / something went wrong";
+  display: block;
+  margin-top: 26px;
+  color: #d7e6ff;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+a {
+  color: #00ff66;
+  text-decoration: underline;
+  text-shadow: 0 0 10px #00ff66;
+}
+
+a:visited {
+  color: #ff2bd6;
+}
+
+::selection {
+  background: #ff2bd6;
+  color: #ffffff;
+}
+
+@keyframes promptGlitch {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-5px, 2px);
+  }
+}
+
+@keyframes brokenPoster {
+  0%, 100% {
+    filter: none;
+  }
+
+  25% {
+    transform: rotate(-0.5deg) translate(4px, -2px);
+    filter: hue-rotate(35deg) contrast(150%);
+  }
+
+  50% {
+    transform: rotate(0.6deg) translate(-4px, 2px);
+    filter: saturate(190%);
+  }
+
+  75% {
+    transform: rotate(-1deg) translate(2px, 3px);
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    justify-content: flex-start;
+    padding-top: 126px;
+    overflow-y: auto;
+  }
+
+  body::after {
+    top: 66px;
+    right: 12px;
+    font-size: 28px;
+  }
+
+  h1 {
+    padding: 28px 12px 32px;
+  }
+
+  h1::before {
+    width: min(286px, 82vw);
+  }
+
+  h1::after {
+    width: min(260px, 76vw);
+    font-size: 11px;
+  }
+
+  button {
+    width: min(315px, 90vw);
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  #messageDisplay {
+    font-size: 14px;
+  }
+}
