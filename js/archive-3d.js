@@ -13,7 +13,7 @@ window.Archive3D = (() => {
   // Opens the archive overlay, creates its HTML, and attaches navigation events.
   function open(projectList) {
     projects = projectList;
-    activeIndex = 0;
+    activeIndex = Math.max(0, projects.findIndex(project => project.id === "#00"));
     targetDepth = 0;
     pointerOffset = 0;
 
@@ -54,8 +54,11 @@ window.Archive3D = (() => {
       const card = document.createElement("article");
       card.className = "archive-project-card";
       card.dataset.index = index;
+      const projectVisual = project.image
+        ? `<img src="${project.image}" alt="${project.title} preview" style="object-position: ${project.imagePosition || "center center"};">`
+        : `<span>${project.imageLabel || project.id}</span>`;
       card.innerHTML = `
-        <div class="archive-project-image"><span>${project.imageLabel || project.id}</span></div>
+        <div class="archive-project-image">${projectVisual}</div>
         <div class="archive-project-meta">
           <span>${project.id} ${project.title}</span>
           <small>${project.year}</small>
