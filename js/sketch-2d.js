@@ -37,7 +37,7 @@ function preload() {
 // Initializes the P5 canvas, font, and source text before animation starts.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(5);
+  pixelDensity(2);
   textFont("Courier New");
   fullText = cvLines.join("\n");
   noiseSeedValue = random(1000);
