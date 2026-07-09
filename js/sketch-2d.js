@@ -37,7 +37,7 @@ function preload() {
 // Initializes the P5 canvas, font, and source text before animation starts.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(2);
+  pixelDensity(1);
   textFont("Courier New");
   fullText = cvLines.join("\n");
   noiseSeedValue = random(1000);
@@ -702,7 +702,7 @@ function drawCable(computer, printer) {
 function drawForegroundParticles() {
   noStroke();
   randomSeed(42);
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 80; i++) {
     const x = random(width);
     const y = random(height);
     const twinkle = map(sin(frameCount * 0.02 + i), -1, 1, 20, 85);
