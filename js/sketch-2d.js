@@ -37,7 +37,7 @@ function preload() {
 // Initializes the P5 canvas, font, and source text before animation starts.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(2);
+  pixelDensity(15);
   textFont("Courier New");
   fullText = cvLines.join("\n");
   noiseSeedValue = random(1000);
@@ -358,41 +358,48 @@ function drawFramedProfileImage(x, y, w, h, radius) {
 
 // Writes paragraph text inside a fixed area with simple word wrapping.
 function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
-  let fittedFontSize = fontSize;
-  let fittedLeading = leading;
+  textSize(fontSize);
+  textLeading(leading);
 
-  while (fittedFontSize > 7) {
-    const lines = buildWrappedLines(paragraphs, w, fittedFontSize);
-    const totalH = lines.length * fittedLeading;
-
-    if (totalH <= maxH) {
-      break;
-    }
-
-    fittedFontSize -= 0.5;
-    fittedLeading = fittedFontSize * 1.35;
-  }
-
-  textSize(fittedFontSize);
-  textLeading(fittedLeading);
-
-  const lines = buildWrappedLines(paragraphs, w, fittedFontSize);
   let cursorY = y;
 
-  for (const line of lines) {
-    if (line === "") {
-      cursorY += fittedLeading * 0.5;
-    } else {
-      text(line, x, cursorY);
-      cursorY += fittedLeading;
+  for (const paragraph of paragraphs) {
+    if (paragraph === "") {
+      cursorY += leading * 0.6;
+      continue;
     }
 
-    if (cursorY > y + maxH) {
-      return;
+    const words = paragraph.split(" ");
+    let line = "";
+
+    for (const word of words) {
+      const testLine = line ? line + " " + word : word;
+
+      if (textWidth(testLine) > w && line !== "") {
+        if (cursorY + leading > y + maxH) {
+          return;
+        }
+
+        text(line, x, cursorY);
+        cursorY += leading;
+        line = word;
+      } else {
+        line = testLine;
+      }
     }
+
+    if (line !== "") {
+      if (cursorY + leading > y + maxH) {
+        return;
+      }
+
+      text(line, x, cursorY);
+      cursorY += leading;
+    }
+
+    cursorY += leading * 0.5;
   }
 }
-
 function buildWrappedLines(paragraphs, w, fontSize) {
   textSize(fontSize);
 
