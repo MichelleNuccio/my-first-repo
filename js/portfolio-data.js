@@ -33,8 +33,18 @@ window.PortfolioData = {
   ],
 
   // Portfolio projects shown inside the 3D archive and in the bottom timeline.
-  // Each object controls one card: id, title, type, collaborators, year, visual label, and description.
+  // Each object controls one card: id, title, type, collaborators, year, visual label, description, and optional page link.
   projects: [
+    {
+      id: "#00",
+      title: "Those Flowers are for you",
+      type: "3D spatial canvas / interactive studies",
+      collaborators: "",
+      year: "2026",
+      imageLabel: "FLOWERS",
+      url: "spatial-canvas.html",
+      description: "A collection of four canvas studies: a luminous 3D bouquet, an interactive petal-plucking flower, and two glowing 2D floral drawings."
+    },
     {
       id: "#01",
       title: "Ec(h)oes in the Rings",

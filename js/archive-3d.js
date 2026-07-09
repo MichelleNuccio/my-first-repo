@@ -65,7 +65,7 @@ window.Archive3D = (() => {
         <p class="archive-project-collaborators">${project.collaborators || ""}</p>
         <p>${project.description}</p>
       `;
-      card.addEventListener("click", () => setActiveIndex(index));
+      card.addEventListener("click", () => openProject(index));
       scene.appendChild(card);
     });
   }
@@ -88,6 +88,20 @@ window.Archive3D = (() => {
   function setActiveIndex(index) {
     activeIndex = Math.max(0, Math.min(projects.length - 1, index));
     updateArchive();
+  }
+
+  // Opens a linked project page when the active card is clicked.
+  // If the card is not active yet, the first click brings it forward.
+  function openProject(index) {
+    if (index !== activeIndex) {
+      setActiveIndex(index);
+      return;
+    }
+
+    const project = projects[index];
+    if (project && project.url) {
+      window.location.href = project.url;
+    }
   }
 
   // Repositions all cards in 3D space according to the active project.
