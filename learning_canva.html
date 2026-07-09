@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Bloom</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+
+  <style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #09010f;
+  }
+
+  #controls {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    color: rgb(0, 0, 0);
+    font-family: 'Courier New', Courier, monospace sans-serif;
+  }
+
+  #flower-step-canvas {
+    width: 100vw;
+    height: 100vh;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="controls">
+    <button id="prev-step">Previous</button>
+    <span id="step-label"></span>
+    <button id="next-step">Next</button>
+  </div>
+
+  <div id="flower-step-canvas"></div>
+
+  <script src="js/2DCanvas_1_learning.js"></script>
+</body>
+</html>
