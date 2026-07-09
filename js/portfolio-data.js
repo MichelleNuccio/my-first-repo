@@ -9,11 +9,6 @@ window.PortfolioData = {
     "RUOLO: Creative technologist / designer",
     "LOCATION: Italia",
     "",
-    "PROFILO",
-    "Sviluppo esperienze digitali, visual design",
-    "e interfacce interattive con cura per ritmo,",
-    "dettaglio e comunicazione visiva.",
-    "",
     "SKILLS",
     "P5.js, interaction design, prototyping,",
     "motion graphics, data visualization,",
@@ -45,6 +40,15 @@ window.PortfolioData = {
       description: "Placeholder for a future project. Replace this entry with title, year, collaborators, images and description."
     },
     {
+      id: "#04",
+      title: "Project Placeholder",
+      type: "Future project",
+      collaborators: "to be added",
+      year: "TBA",
+      imageLabel: "P04",
+      description: "Placeholder for a future project. Replace this entry with title, year, collaborators, images and description."
+    },
+    {
       id: "#03",
       title: "Those Flowers are for you <3",
       type: "3D spatial canvas / interactive studies",
@@ -63,15 +67,6 @@ window.PortfolioData = {
       imageLabel: "ECHO",
       image: "assets/GH_03-B.png",
       description: "Developed for the 5th edition of Bolzano Art Week, the project explores the Ginkgo biloba as both a living archive and a community landmark, revealing its hidden internal structure and reinterpreting it as a work of art."
-    },
-    {
-      id: "#04",
-      title: "Project Placeholder",
-      type: "Future project",
-      collaborators: "to be added",
-      year: "TBA",
-      imageLabel: "P04",
-      description: "Placeholder for a future project. Replace this entry with title, year, collaborators, images and description."
     },
     {
       id: "#01",
