@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Basic page settings for a responsive 3D assignment page. -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Spatial Canvas - Michelle Nuccio</title>
+
+  <!-- P5.js creates the 3D and 2D canvas sketches on this page. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+
+  <style>
+    /* Page structure: dark interface, fuchsia accents, and readable project text. */
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #09010f;
+      color: #ffd1f4;
+      font-family: "Courier New", monospace;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Header area introduces the assignment and connects it to the portfolio language. */
+    .page-header {
+      width: min(1120px, calc(100% - 32px));
+      margin: 28px auto 18px;
+      border: 1px solid rgba(255, 0, 190, 0.62);
+      background: rgba(24, 0, 28, 0.68);
+      box-shadow: 0 0 24px rgba(255, 0, 190, 0.2);
+      padding: 18px;
+    }
+
+    .page-header a {
+      color: #ff8ee8;
+      text-decoration: none;
+    }
+
+    .page-header h1 {
+      margin: 10px 0 10px;
+      font-size: clamp(24px, 5vw, 58px);
+      letter-spacing: 0;
+      line-height: 0.95;
+      color: #ff8ee8;
+      text-shadow: 0 0 18px rgba(255, 0, 190, 0.72);
+    }
+
+    .page-header p {
+      max-width: 920px;
+      margin: 0;
+      font-size: clamp(14px, 1.8vw, 18px);
+      line-height: 1.55;
+    }
+
+    /* Grid that holds the canvas studies side by side on desktop and stacked on mobile. */
+    .canvas-grid {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto 34px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* Each canvas panel includes a title, short description, and one canvas. */
+    .canvas-panel {
+      min-height: 600px;
+      border: 1px solid rgba(255, 0, 190, 0.58);
+      background:
+        linear-gradient(135deg, rgba(255, 0, 190, 0.12), transparent 46%),
+        rgba(16, 0, 22, 0.86);
+      box-shadow: 0 0 24px rgba(255, 0, 190, 0.18);
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .panel-copy {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid rgba(255, 0, 190, 0.36);
+    }
+
+    .panel-copy h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #ff8ee8;
+    }
+
+    .panel-copy p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255, 209, 244, 0.84);
+    }
+
+    .canvas-holder {
+      min-height: 480px;
+      position: relative;
+    }
+
+    .love-status {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      z-index: 2;
+      color: #ff8ee8;
+      font-size: 16px;
+      font-weight: 700;
+      text-shadow: 0 0 12px rgba(255, 0, 190, 0.9);
+      pointer-events: none;
+    }
+
+    .canvas-holder canvas {
+      display: block;
+    }
+
+    @media (max-width: 860px) {
+      .canvas-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <a href="index.html">BACK TO ARCHIVE</a>
+    <h1>Those Flowers are for you &lt;3</h1>
+    <p>
+      In a landscape increasingly shaped by algorithms, virtual flowers become quiet acts of kindness: small gestures reminding us that even digital spaces can bloom with care.
+    </p>
+  </header>
+
+  <main class="canvas-grid">
+    <section class="canvas-panel">
+      <div class="panel-copy">
+        <h2>CANVAS 01 / DATA BOUQUET</h2>
+        <p>Orbit the camera to inspect a luminous bouquet: converging cylinder stems, ellipsoid petals, spherical cores, leaves, and tiny sparkling perfume bubbles.</p>
+      </div>
+      <div id="portrait-canvas" class="canvas-holder" aria-label="3D stylized self portrait canvas"></div>
+    </section>
+
+    <section class="canvas-panel">
+      <div class="panel-copy">
+        <h2>CANVAS 02 / M'AMA NON M'AMA</h2>
+        <p>Click the flower to pluck one glossy 3D petal at a time. The result alternates between M'AMA and NON M'AMA.</p>
+      </div>
+      <div id="archive-field-canvas" class="canvas-holder" aria-label="3D archive field canvas">
+        <div id="love-status" class="love-status">CLICK TO PLUCK</div>
+      </div>
+    </section>
+
+    <section class="canvas-panel">
+      <div class="panel-copy">
+        <h2>CANVAS 03 / SIGNAL BLOOM</h2>
+        <p>A 2D illustrated flower drawn with layered strokes, translucent petals, and animated signal lines.</p>
+      </div>
+      <div id="flower-illustration-a" class="canvas-holder" aria-label="2D illustrated signal flower canvas"></div>
+    </section>
+
+    <section class="canvas-panel">
+      <div class="panel-copy">
+        <h2>CANVAS 04 / NIGHT GARDEN</h2>
+        <p>A second 2D study with a nocturnal bouquet drawn only through glowing outlines and drifting bubble contours.</p>
+      </div>
+      <div id="flower-illustration-b" class="canvas-holder" aria-label="2D illustrated night flower canvas"></div>
+    </section>
+  </main>
+
+  <!-- Each canvas sketch is saved in its own separate JavaScript file. -->
+  <script src="js/3DCanvas_1.js"></script>
+  <script src="js/3DCanvas_2.js"></script>
+  <script src="js/2DCanvas_1.js"></script>
+  <script src="js/2DCanvas_2.js"></script>
+</body>
+</html>
