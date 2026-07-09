@@ -62,7 +62,7 @@ function draw() {
 
 // Calculates responsive layout values for the computer, screen, and printer.
 function getStage() {
-  const scaleFactor = min(width / 1010, height / 760);
+  const scaleFactor = min(width / 1010, height / 760)*0.75;
   const computerW = 520 * scaleFactor;
   const computerH = 430 * scaleFactor;
   const printerW = 335 * scaleFactor;
