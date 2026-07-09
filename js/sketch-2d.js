@@ -362,6 +362,7 @@ function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
   textLeading(leading);
 
   let cursorY = y;
+  const maxChars = max(28, floor(w / (fontSize * 0.62)));
 
   for (const paragraph of paragraphs) {
     if (paragraph === "") {
@@ -375,11 +376,8 @@ function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
     for (const word of words) {
       const testLine = line ? line + " " + word : word;
 
-      if (textWidth(testLine) > w && line !== "") {
-        if (cursorY + leading > y + maxH) {
-          return;
-        }
-
+      if (testLine.length > maxChars && line !== "") {
+        if (cursorY + leading > y + maxH) return;
         text(line, x, cursorY);
         cursorY += leading;
         line = word;
@@ -389,10 +387,7 @@ function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
     }
 
     if (line !== "") {
-      if (cursorY + leading > y + maxH) {
-        return;
-      }
-
+      if (cursorY + leading > y + maxH) return;
       text(line, x, cursorY);
       cursorY += leading;
     }
@@ -400,6 +395,7 @@ function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
     cursorY += leading * 0.5;
   }
 }
+
 function buildWrappedLines(paragraphs, w, fontSize) {
   textSize(fontSize);
 
@@ -706,7 +702,7 @@ function drawCable(computer, printer) {
 function drawForegroundParticles() {
   noStroke();
   randomSeed(42);
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 40; i++) {
     const x = random(width);
     const y = random(height);
     const twinkle = map(sin(frameCount * 0.02 + i), -1, 1, 20, 85);
