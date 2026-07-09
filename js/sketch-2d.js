@@ -37,7 +37,7 @@ function preload() {
 // Initializes the P5 canvas, font, and source text before animation starts.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(1);
+  pixelDensity(2);
   textFont("Courier New");
   fullText = cvLines.join("\n");
   noiseSeedValue = random(1000);
@@ -358,23 +358,60 @@ function drawFramedProfileImage(x, y, w, h, radius) {
 
 // Writes paragraph text inside a fixed area with simple word wrapping.
 function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
+  let fittedFontSize = fontSize;
+  let fittedLeading = leading;
+
+  while (fittedFontSize > 7) {
+    const lines = buildWrappedLines(paragraphs, w, fittedFontSize);
+    const totalH = lines.length * fittedLeading;
+
+    if (totalH <= maxH) {
+      break;
+    }
+
+    fittedFontSize -= 0.5;
+    fittedLeading = fittedFontSize * 1.35;
+  }
+
+  textSize(fittedFontSize);
+  textLeading(fittedLeading);
+
+  const lines = buildWrappedLines(paragraphs, w, fittedFontSize);
   let cursorY = y;
-  const maxChars = max(24, floor(w / (fontSize * 0.58)));
+
+  for (const line of lines) {
+    if (line === "") {
+      cursorY += fittedLeading * 0.5;
+    } else {
+      text(line, x, cursorY);
+      cursorY += fittedLeading;
+    }
+
+    if (cursorY > y + maxH) {
+      return;
+    }
+  }
+}
+
+function buildWrappedLines(paragraphs, w, fontSize) {
+  textSize(fontSize);
+
+  const lines = [];
 
   for (const paragraph of paragraphs) {
     if (paragraph === "") {
-      cursorY += leading * 0.65;
+      lines.push("");
       continue;
     }
 
     const words = paragraph.split(" ");
     let line = "";
+
     for (const word of words) {
       const testLine = line ? `${line} ${word}` : word;
-      if (testLine.length > maxChars) {
-        if (cursorY + leading > y + maxH) return;
-        text(line, x, cursorY);
-        cursorY += leading;
+
+      if (textWidth(testLine) > w && line) {
+        lines.push(line);
         line = word;
       } else {
         line = testLine;
@@ -382,12 +419,13 @@ function drawWrappedParagraphs(paragraphs, x, y, w, maxH, fontSize, leading) {
     }
 
     if (line) {
-      if (cursorY + leading > y + maxH) return;
-      text(line, x, cursorY);
-      cursorY += leading;
+      lines.push(line);
     }
-    cursorY += leading * 0.45;
+
+    lines.push("");
   }
+
+  return lines;
 }
 
 // Draws the retro computer as a luminous wireframe object.

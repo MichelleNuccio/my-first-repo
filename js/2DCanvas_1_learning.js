@@ -78,7 +78,7 @@ new p5((p) => {
 
   function drawPetals() {
     const cx = p.width * 0.5;
-    const cy = p.height * 0.5;
+    const cy = p.height * 0.45;
 
     p.push();
     p.translate(cx, cy);
