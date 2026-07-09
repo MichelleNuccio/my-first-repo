@@ -305,8 +305,8 @@ function drawIntroWindow(win) {
   const textY = contentY + 4 * s;
   const textW = win.w - textX - pad;
   textStyle(NORMAL);
-  textSize(10.8 * s);
-  textLeading(14.4 * s);
+  textSize(14 * s);
+  textLeading(18 * s);
 
   const bodyY = textY;
   const bodyMaxH = win.h - bodyY - 16 * s;
