@@ -8,6 +8,7 @@
 
   <!-- P5.js creates the 3D and 2D canvas sketches on this page. -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
   <style>
     /* Page structure: dark interface, fuchsia accents, and readable project text. */
@@ -115,9 +116,149 @@
       display: block;
     }
 
+    .timeline-panel {
+      grid-column: 1 / -1;
+      min-height: 560px;
+    }
+
+    .timeline-layout {
+      min-height: 480px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 0;
+    }
+
+    .timeline-stage {
+      min-width: 0;
+      border-right: 1px solid rgba(255, 0, 190, 0.36);
+      background-image:
+        linear-gradient(rgba(255, 0, 190, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 190, 0.10) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+
+    #flower-timeline {
+      width: 100%;
+      min-height: 480px;
+      display: block;
+    }
+
+    .timeline-notes {
+      padding: 16px;
+      color: rgba(255, 209, 244, 0.82);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .timeline-notes strong {
+      display: block;
+      margin-bottom: 10px;
+      color: #20e7ff;
+      font-size: 18px;
+      text-shadow: 0 0 12px rgba(32, 231, 255, 0.72);
+    }
+
+    .timeline-legend {
+      display: grid;
+      gap: 9px;
+      margin-top: 18px;
+      text-transform: uppercase;
+      color: rgba(255, 142, 232, 0.9);
+    }
+
+    .timeline-legend span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-swatch {
+      width: 16px;
+      height: 12px;
+      border: 1px solid #ff35dc;
+      background: rgba(255, 0, 190, 0.35);
+      box-shadow: 0 0 8px rgba(255, 0, 190, 0.45);
+    }
+
+    .timeline-swatch.line {
+      height: 3px;
+      border: 0;
+      background: #20e7ff;
+      box-shadow: 0 0 8px rgba(32, 231, 255, 0.9);
+    }
+
+    .timeline-axis text {
+      fill: rgba(255, 142, 232, 0.9);
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+    }
+
+    .timeline-axis path,
+    .timeline-axis line {
+      stroke: rgba(255, 0, 190, 0.58);
+    }
+
+    .timeline-grid line {
+      stroke: rgba(255, 0, 190, 0.18);
+    }
+
+    .timeline-grid path {
+      display: none;
+    }
+
+    .timeline-bar {
+      fill: rgba(255, 0, 190, 0.28);
+      stroke: #ff35dc;
+      stroke-width: 1.2px;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 190, 0.38));
+    }
+
+    .timeline-bar.is-low {
+      fill: rgba(6, 204, 198, 0.14);
+      stroke: rgba(32, 231, 255, 0.72);
+    }
+
+    .timeline-line {
+      fill: none;
+      stroke: #20e7ff;
+      stroke-width: 2;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px rgba(32, 231, 255, 0.8));
+    }
+
+    .timeline-petal {
+      fill: url(#timelinePetalGradient);
+      stroke: rgba(255, 215, 255, 0.7);
+      stroke-width: 0.7px;
+      filter: drop-shadow(0 0 5px rgba(255, 0, 190, 0.9));
+    }
+
+    .timeline-core {
+      fill: #ff00ba;
+      stroke: #ff9df2;
+      stroke-width: 0.9px;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 190, 0.95));
+    }
+
+    .timeline-label {
+      fill: rgba(255, 209, 244, 0.82);
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+    }
+
     @media (max-width: 860px) {
       .canvas-grid {
         grid-template-columns: 1fr;
+      }
+
+      .timeline-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-stage {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 0, 190, 0.36);
       }
     }
   </style>
@@ -132,6 +273,26 @@
   </header>
 
   <main class="canvas-grid">
+    <section class="canvas-panel timeline-panel">
+      <div class="panel-copy">
+        <h2>CANVAS 00 / TEMPORAL BLOOM</h2>
+        <p>Monthly GBIF/iNaturalist observations of <em>Bellis perennis</em> in Italy, used as a seasonal proxy for daisy flowering.</p>
+      </div>
+      <div class="timeline-layout">
+        <div class="timeline-stage">
+          <svg id="flower-timeline" role="img" aria-label="Temporal diagram of daisy flowering observations"></svg>
+        </div>
+        <aside class="timeline-notes">
+          <strong>1.498 RECORDS</strong>
+          April is the dataset peak, followed by March and May. The bars are monthly observation counts; the cyan curve is normalized from 0 to 1.
+          <div class="timeline-legend" aria-hidden="true">
+            <span><i class="timeline-swatch"></i> observations</span>
+            <span><i class="timeline-swatch line"></i> bloom index</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
     <section class="canvas-panel">
       <div class="panel-copy">
         <h2>CANVAS 01 / DATA BOUQUET</h2>
@@ -168,6 +329,137 @@
   </main>
 
   <!-- Each canvas sketch is saved in its own separate JavaScript file. -->
+  <script>
+    (() => {
+      const data = [
+        { month: 1, label: "Gen", observations: 58, share: 0.0387, bloomScore: 0.127 },
+        { month: 2, label: "Feb", observations: 179, share: 0.1195, bloomScore: 0.391 },
+        { month: 3, label: "Mar", observations: 327, share: 0.2183, bloomScore: 0.714 },
+        { month: 4, label: "Apr", observations: 458, share: 0.3057, bloomScore: 1 },
+        { month: 5, label: "Mag", observations: 258, share: 0.1722, bloomScore: 0.563 },
+        { month: 6, label: "Giu", observations: 69, share: 0.0461, bloomScore: 0.151 },
+        { month: 7, label: "Lug", observations: 35, share: 0.0234, bloomScore: 0.076 },
+        { month: 8, label: "Ago", observations: 14, share: 0.0093, bloomScore: 0.031 },
+        { month: 9, label: "Set", observations: 19, share: 0.0127, bloomScore: 0.041 },
+        { month: 10, label: "Ott", observations: 28, share: 0.0187, bloomScore: 0.061 },
+        { month: 11, label: "Nov", observations: 15, share: 0.01, bloomScore: 0.033 },
+        { month: 12, label: "Dic", observations: 38, share: 0.0254, bloomScore: 0.083 }
+      ];
+
+      const svg = d3.select("#flower-timeline");
+      const margin = { top: 36, right: 38, bottom: 52, left: 58 };
+      const defs = svg.append("defs");
+      const petalGradient = defs.append("radialGradient")
+        .attr("id", "timelinePetalGradient")
+        .attr("cx", "35%")
+        .attr("cy", "28%")
+        .attr("r", "75%");
+      petalGradient.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff");
+      petalGradient.append("stop").attr("offset", "45%").attr("stop-color", "#ff90f0");
+      petalGradient.append("stop").attr("offset", "100%").attr("stop-color", "#ff00ba");
+
+      function renderTimeline() {
+        const bounds = svg.node().getBoundingClientRect();
+        const width = Math.max(320, bounds.width);
+        const height = Math.max(420, bounds.height || 480);
+        svg.attr("viewBox", `0 0 ${width} ${height}`);
+        svg.selectAll(".timeline-plot").remove();
+
+        const plot = svg.append("g").attr("class", "timeline-plot");
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+
+        const x = d3.scaleBand()
+          .domain(data.map(d => d.label))
+          .range([margin.left, margin.left + innerWidth])
+          .padding(0.28);
+
+        const y = d3.scaleLinear()
+          .domain([0, d3.max(data, d => d.observations)]).nice()
+          .range([margin.top + innerHeight, margin.top]);
+
+        const yScore = d3.scaleLinear()
+          .domain([0, 1])
+          .range([margin.top + innerHeight, margin.top]);
+
+        plot.append("g")
+          .attr("class", "timeline-grid")
+          .attr("transform", `translate(${margin.left},0)`)
+          .call(d3.axisLeft(y).ticks(5).tickSize(-innerWidth).tickFormat(""))
+          .call(g => g.select(".domain").remove());
+
+        plot.append("g")
+          .attr("class", "timeline-axis")
+          .attr("transform", `translate(0,${margin.top + innerHeight})`)
+          .call(d3.axisBottom(x).tickSizeOuter(0));
+
+        plot.append("g")
+          .attr("class", "timeline-axis")
+          .attr("transform", `translate(${margin.left},0)`)
+          .call(d3.axisLeft(y).ticks(5));
+
+        plot.selectAll("rect.timeline-bar")
+          .data(data)
+          .join("rect")
+          .attr("class", d => d.observations < 40 ? "timeline-bar is-low" : "timeline-bar")
+          .attr("x", d => x(d.label))
+          .attr("y", d => y(d.observations))
+          .attr("width", x.bandwidth())
+          .attr("height", d => y(0) - y(d.observations));
+
+        const line = d3.line()
+          .x(d => x(d.label) + x.bandwidth() / 2)
+          .y(d => yScore(d.bloomScore))
+          .curve(d3.curveCatmullRom.alpha(0.45));
+
+        plot.append("path")
+          .datum(data)
+          .attr("class", "timeline-line")
+          .attr("d", line);
+
+        const flowers = plot.selectAll("g.timeline-flower")
+          .data(data)
+          .join("g")
+          .attr("class", "timeline-flower")
+          .attr("transform", d => `translate(${x(d.label) + x.bandwidth() / 2},${yScore(d.bloomScore)})`);
+
+        flowers.each(function(d) {
+          const g = d3.select(this);
+          const petalLength = 7 + d.bloomScore * 10;
+          const petalWidth = 2.6 + d.bloomScore * 2.2;
+          g.selectAll("ellipse.timeline-petal")
+            .data(d3.range(10))
+            .join("ellipse")
+            .attr("class", "timeline-petal")
+            .attr("cx", 0)
+            .attr("cy", -petalLength * 0.55)
+            .attr("rx", petalWidth)
+            .attr("ry", petalLength)
+            .attr("transform", p => `rotate(${p * 36})`);
+        });
+
+        flowers.append("circle")
+          .attr("class", "timeline-core")
+          .attr("r", d => 3 + d.bloomScore * 4);
+
+        plot.append("text")
+          .attr("class", "timeline-label")
+          .attr("x", margin.left)
+          .attr("y", 20)
+          .text("Conteggio osservazioni");
+
+        plot.append("text")
+          .attr("class", "timeline-label")
+          .attr("x", width - margin.right)
+          .attr("y", 20)
+          .attr("text-anchor", "end")
+          .text("Indice 0-1");
+      }
+
+      renderTimeline();
+      window.addEventListener("resize", renderTimeline);
+    })();
+  </script>
   <script src="js/3DCanvas_1.js"></script>
   <script src="js/3DCanvas_2.js"></script>
   <script src="js/2DCanvas_1.js"></script>
