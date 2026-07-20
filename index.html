@@ -1,22 +1,40 @@
 <!doctype html>
 <html lang="it">
-<head>
-  <!-- Basic page settings: character encoding, mobile scaling, and browser title. -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WELCOME IN MY CORNER OF THE WEB</title>
-  <!-- Main stylesheet for the page, the 3D archive overlay, and the timeline interface. -->
-  <link rel="stylesheet" href="styles.css?v=20260709-2" />
-  <!-- P5.js powers the 2D canvas drawing on the landing page. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-  <!-- Project data and helper scripts are loaded before the P5 sketch starts using them. -->
-  <script src="js/portfolio-data.js?v=20260709-2" defer></script>
-  <script src="js/pdf-utils.js" defer></script>
-  <script src="js/archive-3d.js?v=20260709-2" defer></script>
-  <script src="js/app.js" defer></script>
-  <script src="js/sketch-2d.js" defer></script>
-</head>
-<body>
-  <div id="archive-3d" aria-hidden="true"></div>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculating Empires | Precedent Study</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="intro-closed">
+    <div class="intro-gate" aria-live="polite">
+      <button
+        id="intro-square"
+        class="intro-square"
+        type="button"
+        aria-label="Open the Calculating Empires relational diagram"
+      >
+        <span class="intro-square-mark" aria-hidden="true"></span>
+        <span class="intro-label" aria-hidden="true">
+          <small>Click to discover the diagram and scroll to read about it.</small>
+        </span>
+      </button>
+    </div>
+
+    <main class="app-shell">
+      <section class="map-stage" aria-label="Mappa interattiva">
+        <div class="graph-wrap">
+          <svg id="empire-map" role="img" aria-labelledby="graph-title graph-desc">
+            <title id="graph-title">Force-directed tree su Calculating Empires</title>
+            <desc id="graph-desc">
+              Una mappa interattiva che organizza il precedent study di Calculating Empires.
+            </desc>
+          </svg>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="./d3.js"></script>
+  </body>
 </html>

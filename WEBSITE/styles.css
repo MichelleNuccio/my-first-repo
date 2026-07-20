@@ -1,0 +1,259 @@
+/* Base page setup: removes default browser spacing and prepares a full-screen canvas. */
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
+  background: #0c0212;
+  font-family: "Courier New", monospace;
+}
+
+canvas {
+  display: block;
+}
+
+/* Hidden full-screen layer used only when the 3D archive is open. */
+#archive-3d {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: none;
+  background: radial-gradient(circle at center, rgba(255, 0, 190, 0.18), rgba(12, 2, 18, 0.98) 58%);
+}
+
+#archive-3d.is-open {
+  display: block;
+}
+
+/* Shared archive controls: top interface label and close button. */
+.archive-hud,
+.archive-close {
+  position: absolute;
+  z-index: 12;
+  color: #ff8ee8;
+  font-family: "Courier New", monospace;
+}
+
+.archive-hud {
+  left: 32px;
+  top: 28px;
+  display: grid;
+  gap: 6px;
+  text-shadow: 0 0 10px rgba(255, 0, 190, 0.75);
+}
+
+.archive-hud strong {
+  font-size: 18px;
+}
+
+.archive-hud span {
+  font-size: 12px;
+  opacity: 0.72;
+}
+
+.archive-close {
+  top: 24px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 0, 190, 0.75);
+  background: rgba(32, 0, 30, 0.7);
+  box-shadow: 0 0 16px rgba(255, 0, 190, 0.35);
+  cursor: pointer;
+  font-size: 28px;
+}
+
+/* Creates the perspective camera area where the CSS 3D project cards live. */
+.archive-perspective {
+  position: absolute;
+  inset: 0 0 96px;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  overflow: hidden;
+}
+
+.archive-scene {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  transition: transform 160ms ease-out;
+}
+
+/* Wireframe floor grid that gives the archive a spatial, navigable feeling. */
+.archive-grid-floor {
+  position: absolute;
+  left: -460px;
+  top: 120px;
+  width: 920px;
+  height: 920px;
+  transform: rotateX(90deg) translateZ(-160px);
+  background-image:
+    linear-gradient(rgba(255, 0, 190, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 190, 0.22) 1px, transparent 1px);
+  background-size: 46px 46px;
+  box-shadow: 0 0 70px rgba(255, 0, 190, 0.18) inset;
+}
+
+/* Shared neon-card styling for the archive index block and every project card. */
+.archive-core,
+.archive-project-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  border: 1px solid rgba(255, 0, 190, 0.82);
+  background: rgba(28, 0, 30, 0.68);
+  box-shadow: 0 0 18px rgba(255, 0, 190, 0.45), inset 0 0 22px rgba(255, 0, 190, 0.14);
+  color: #ff8ee8;
+}
+
+/* Central label inside the 3D space. */
+.archive-core {
+  width: 180px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  margin-left: -90px;
+  margin-top: -44px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transform: translateZ(0);
+}
+
+/* Individual project card: image placeholder, metadata, title, collaborators, and description. */
+.archive-project-card {
+  width: min(430px, 68vw);
+  min-height: 330px;
+  margin-left: calc(min(430px, 68vw) / -2);
+  margin-top: -180px;
+  padding: 18px;
+  transition: transform 360ms ease, opacity 260ms ease, box-shadow 260ms ease;
+  cursor: pointer;
+}
+
+/* Extra glow for the currently selected project. */
+.archive-project-card.is-active {
+  box-shadow: 0 0 30px rgba(255, 0, 190, 0.74), inset 0 0 24px rgba(255, 0, 190, 0.18);
+}
+
+/* Placeholder visual area that can later be replaced by real project images. */
+.archive-project-image {
+  display: grid;
+  place-items: center;
+  height: 150px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 0, 190, 0.52);
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 0, 190, 0.18), transparent 55%),
+    repeating-linear-gradient(0deg, rgba(255, 142, 232, 0.12) 0 1px, transparent 1px 10px);
+}
+
+.archive-project-image img {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.archive-project-image span {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 15px rgba(255, 0, 190, 0.8);
+}
+
+.archive-project-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  opacity: 0.78;
+}
+
+.archive-project-meta span,
+.archive-project-meta small {
+  font-size: 12px;
+}
+
+/* Main project title inside each card. */
+.archive-project-card h2 {
+  margin: 0 0 8px;
+  font-size: clamp(17px, 2.35vw, 25px);
+}
+
+/* Project category or context, for example installation, thesis, or exhibition. */
+.archive-project-card h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #ffd1f4;
+}
+
+/* Separate collaboration line placed under the project type. */
+.archive-project-card .archive-project-collaborators {
+  margin: 0 0 16px;
+  color: #ff8ee8;
+  font-size: 12px;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.archive-project-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* Bottom timeline: lets the user jump between projects without scrolling through every card. */
+.archive-timeline {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+  z-index: 12;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(255, 0, 190, 0.55);
+  background: rgba(20, 0, 24, 0.72);
+  box-shadow: 0 0 22px rgba(255, 0, 190, 0.22);
+}
+
+/* Each timeline button represents one project. */
+.archive-timeline button {
+  min-height: 48px;
+  border: 1px solid rgba(255, 0, 190, 0.42);
+  background: rgba(38, 0, 34, 0.78);
+  color: #ff8ee8;
+  font-family: "Courier New", monospace;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Visual state for the active timeline item. */
+.archive-timeline button.is-active {
+  border-color: rgba(255, 142, 232, 0.95);
+  background: rgba(255, 0, 190, 0.16);
+  box-shadow: 0 0 16px rgba(255, 0, 190, 0.38);
+}
+
+.archive-timeline span,
+.archive-timeline strong {
+  display: block;
+}
+
+.archive-timeline span {
+  font-size: 11px;
+  opacity: 0.72;
+}
+

@@ -1,259 +1,518 @@
-/* Base page setup: removes default browser spacing and prepares a full-screen canvas. */
-html,
+:root {
+  color-scheme: dark;
+  --ink: #ffffff;
+  --muted: #a9a9a9;
+  --paper: #000000;
+  --panel: #050505;
+  --line: rgba(255, 255, 255, 0.34);
+  --accent: #ffffff;
+  --accent-2: #ffffff;
+  --shadow: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  min-height: 100%;
-  overflow: hidden;
-  background: #0c0212;
-  font-family: "Courier New", monospace;
-}
-
-canvas {
-  display: block;
-}
-
-/* Hidden full-screen layer used only when the 3D archive is open. */
-#archive-3d {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: none;
-  background: radial-gradient(circle at center, rgba(255, 0, 190, 0.18), rgba(12, 2, 18, 0.98) 58%);
-}
-
-#archive-3d.is-open {
-  display: block;
-}
-
-/* Shared archive controls: top interface label and close button. */
-.archive-hud,
-.archive-close {
-  position: absolute;
-  z-index: 12;
-  color: #ff8ee8;
-  font-family: "Courier New", monospace;
-}
-
-.archive-hud {
-  left: 32px;
-  top: 28px;
-  display: grid;
-  gap: 6px;
-  text-shadow: 0 0 10px rgba(255, 0, 190, 0.75);
-}
-
-.archive-hud strong {
-  font-size: 18px;
-}
-
-.archive-hud span {
-  font-size: 12px;
-  opacity: 0.72;
-}
-
-.archive-close {
-  top: 24px;
-  right: 28px;
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(255, 0, 190, 0.75);
-  background: rgba(32, 0, 30, 0.7);
-  box-shadow: 0 0 16px rgba(255, 0, 190, 0.35);
-  cursor: pointer;
-  font-size: 28px;
-}
-
-/* Creates the perspective camera area where the CSS 3D project cards live. */
-.archive-perspective {
-  position: absolute;
-  inset: 0 0 96px;
-  display: grid;
-  place-items: center;
-  perspective: 900px;
-  overflow: hidden;
-}
-
-.archive-scene {
-  position: relative;
-  width: 1px;
-  height: 1px;
-  transform-style: preserve-3d;
-  transition: transform 160ms ease-out;
-}
-
-/* Wireframe floor grid that gives the archive a spatial, navigable feeling. */
-.archive-grid-floor {
-  position: absolute;
-  left: -460px;
-  top: 120px;
-  width: 920px;
-  height: 920px;
-  transform: rotateX(90deg) translateZ(-160px);
-  background-image:
-    linear-gradient(rgba(255, 0, 190, 0.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 0, 190, 0.22) 1px, transparent 1px);
-  background-size: 46px 46px;
-  box-shadow: 0 0 70px rgba(255, 0, 190, 0.18) inset;
-}
-
-/* Shared neon-card styling for the archive index block and every project card. */
-.archive-core,
-.archive-project-card {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-style: preserve-3d;
-  border: 1px solid rgba(255, 0, 190, 0.82);
-  background: rgba(28, 0, 30, 0.68);
-  box-shadow: 0 0 18px rgba(255, 0, 190, 0.45), inset 0 0 22px rgba(255, 0, 190, 0.14);
-  color: #ff8ee8;
-}
-
-/* Central label inside the 3D space. */
-.archive-core {
-  width: 180px;
-  height: 88px;
-  display: grid;
-  place-items: center;
-  margin-left: -90px;
-  margin-top: -44px;
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  transform: translateZ(0);
-}
-
-/* Individual project card: image placeholder, metadata, title, collaborators, and description. */
-.archive-project-card {
-  width: min(430px, 68vw);
-  min-height: 330px;
-  margin-left: calc(min(430px, 68vw) / -2);
-  margin-top: -180px;
-  padding: 18px;
-  transition: transform 360ms ease, opacity 260ms ease, box-shadow 260ms ease;
-  cursor: pointer;
-}
-
-/* Extra glow for the currently selected project. */
-.archive-project-card.is-active {
-  box-shadow: 0 0 30px rgba(255, 0, 190, 0.74), inset 0 0 24px rgba(255, 0, 190, 0.18);
-}
-
-/* Placeholder visual area that can later be replaced by real project images. */
-.archive-project-image {
-  display: grid;
-  place-items: center;
-  height: 150px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(255, 0, 190, 0.52);
-  overflow: hidden;
+  min-height: 100vh;
   background:
-    linear-gradient(135deg, rgba(255, 0, 190, 0.18), transparent 55%),
-    repeating-linear-gradient(0deg, rgba(255, 142, 232, 0.12) 0 1px, transparent 1px 10px);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    var(--paper);
+  background-size: 44px 44px;
+  color: var(--ink);
+  font-family: "Courier New", Courier, monospace;
 }
 
-.archive-project-image img {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  height: 100%;
-  min-height: 100%;
-  max-height: 100%;
+body.intro-closed {
+  background: #000000;
+  overflow: hidden;
+}
+
+body.intro-unfolding,
+body.intro-open {
+  overflow: hidden;
+}
+
+body.intro-closed .app-shell {
+  grid-template-columns: 1fr;
+  opacity: 1;
+  pointer-events: none;
+  visibility: visible;
+}
+
+body.intro-closed .study-panel,
+body.intro-closed .topbar,
+body.intro-closed .timeline,
+body.intro-closed .filter-bar,
+body.intro-unfolding .study-panel,
+body.intro-unfolding .topbar,
+body.intro-unfolding .timeline,
+body.intro-unfolding .filter-bar {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+body.intro-closed .map-stage,
+body.intro-unfolding .map-stage {
+  grid-column: 1;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 100vh;
+  padding: 0;
+}
+
+body.intro-closed .graph-wrap,
+body.intro-closed #empire-map,
+body.intro-unfolding .graph-wrap,
+body.intro-unfolding #empire-map {
+  min-height: 100vh;
+}
+
+body.intro-unfolding .app-shell,
+body.intro-open .app-shell {
+  opacity: 1;
+  transition: opacity 320ms ease;
+  visibility: visible;
+}
+
+body.intro-unfolding .app-shell {
+  grid-template-columns: 1fr;
+}
+
+body.intro-unfolding .map-stage {
+  grid-column: 1;
+}
+
+.intro-gate {
+  align-items: center;
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  pointer-events: none;
+  position: fixed;
+  z-index: 20;
+}
+
+body.intro-open .intro-gate,
+body.intro-unfolding .intro-gate {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.intro-square {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: #ffffff;
+  cursor: default;
+  display: grid;
+  justify-items: center;
+  min-height: 0;
+  padding: 0;
+  pointer-events: auto;
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.intro-square-mark {
+  background: #ffffff;
+  border: 1px solid #ffffff;
   display: block;
-  object-fit: cover;
-  object-position: center;
+  height: 22px;
+  transition:
+    border-width 160ms ease,
+    height 160ms ease,
+    width 160ms ease;
+  width: 22px;
+  opacity: 1;
 }
 
-.archive-project-image span {
-  font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 15px rgba(255, 0, 190, 0.8);
+.intro-square:hover,
+.intro-square:focus-visible {
+  cursor: pointer;
 }
 
-.archive-project-meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
-  font-size: 12px;
-  opacity: 0.78;
+.intro-square:hover .intro-square-mark,
+.intro-square:focus-visible .intro-square-mark {
+  border-width: 1.5px;
+  height: 26px;
+  width: 26px;
 }
 
-.archive-project-meta span,
-.archive-project-meta small {
-  font-size: 12px;
+body.intro-closed .node:not(.is-root-node),
+body.intro-closed .link,
+body.intro-closed .cross-link {
+  opacity: 0 !important;
 }
 
-/* Main project title inside each card. */
-.archive-project-card h2 {
-  margin: 0 0 8px;
-  font-size: clamp(17px, 2.35vw, 25px);
+body.intro-closed .node text {
+  opacity: 0;
 }
 
-/* Project category or context, for example installation, thesis, or exhibition. */
-.archive-project-card h3 {
-  margin: 0 0 6px;
-  font-size: 13px;
-  color: #ffd1f4;
+body.intro-closed .node.is-root-node {
+  opacity: 1 !important;
 }
 
-/* Separate collaboration line placed under the project type. */
-.archive-project-card .archive-project-collaborators {
-  margin: 0 0 16px;
-  color: #ff8ee8;
-  font-size: 12px;
-  line-height: 1.35;
+body.intro-closed .node.is-root-node rect {
+  stroke-width: 1;
+}
+
+body.intro-hovered .node.is-root-node rect,
+body.intro-closed:has(.intro-square:focus-visible) .node.is-root-node rect {
+  stroke-width: 1.5;
+}
+
+.intro-square:focus-visible {
+  outline: 1px solid #ffffff;
+  outline-offset: 12px;
+}
+
+.intro-label {
+  display: grid;
+  font-size: 0.72rem;
+  gap: 6px;
+  justify-items: center;
+  left: 50%;
+  line-height: 1.1;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
   text-transform: uppercase;
+  top: calc(100% + 18px);
+  transform: translateX(-50%);
+  transition: opacity 180ms ease;
+  width: max-content;
+  max-width: min(460px, calc(100vw - 48px));
+  white-space: normal;
 }
 
-.archive-project-card p {
-  margin: 0;
-  font-size: 12px;
+.intro-label small {
+  color: #ffffff;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-transform: lowercase;
+}
+
+.intro-square:hover .intro-label,
+.intro-square:focus-visible .intro-label {
+  opacity: 1;
+}
+
+.curatorial-statement {
+  align-items: start;
+  bottom: 22px;
+  color: #ffffff;
+  display: flex;
+  gap: 10px;
+  left: 24px;
+  max-width: min(330px, calc(100vw - 48px));
+  opacity: 0.72;
+  position: fixed;
+  z-index: 12;
+}
+
+.curatorial-statement[hidden] {
+  display: none;
+}
+
+.curatorial-statement p {
+  font-size: 0.78rem;
   line-height: 1.45;
 }
 
-/* Bottom timeline: lets the user jump between projects without scrolling through every card. */
-.archive-timeline {
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  bottom: 24px;
-  z-index: 12;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid rgba(255, 0, 190, 0.55);
-  background: rgba(20, 0, 24, 0.72);
-  box-shadow: 0 0 22px rgba(255, 0, 190, 0.22);
+.curatorial-statement button {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  min-height: 22px;
+  padding: 0 6px;
 }
 
-/* Each timeline button represents one project. */
-.archive-timeline button {
-  min-height: 48px;
-  border: 1px solid rgba(255, 0, 190, 0.42);
-  background: rgba(38, 0, 34, 0.78);
-  color: #ff8ee8;
-  font-family: "Courier New", monospace;
-  text-align: left;
+button {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: #000000;
+  color: var(--ink);
   cursor: pointer;
+  font: inherit;
+  min-height: 40px;
+  padding: 0 14px;
 }
 
-/* Visual state for the active timeline item. */
-.archive-timeline button.is-active {
-  border-color: rgba(255, 142, 232, 0.95);
-  background: rgba(255, 0, 190, 0.16);
-  box-shadow: 0 0 16px rgba(255, 0, 190, 0.38);
+button:hover,
+button.is-active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
 }
 
-.archive-timeline span,
-.archive-timeline strong {
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.study-panel {
+  background: rgba(0, 0, 0, 0.94);
+  border-right: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 34px 28px;
+  z-index: 2;
+}
+
+.kicker,
+.eyebrow,
+.node-type {
+  color: var(--accent-2);
+  font-size: 0.74rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.35rem, 4vw, 3rem);
+  line-height: 0.96;
+  max-width: 9ch;
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 28ch;
+}
+
+.panel-section {
+  display: grid;
+  gap: 12px;
+}
+
+.panel-section h2 {
+  font-size: 0.86rem;
+  font-weight: 760;
+}
+
+.node-details {
+  border-left: 3px solid var(--accent);
+  display: grid;
+  gap: 10px;
+  min-height: 178px;
+  padding-left: 16px;
+}
+
+.node-details h3 {
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.node-details p,
+.reading-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-grid button {
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.map-stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 100vh;
+  padding: 0;
+}
+
+.filter-bar {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding-bottom: 14px;
+}
+
+.filter-bar .filter-grid,
+.filter-bar .timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.filter-bar .timeline {
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+}
+
+.topbar {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.topbar h2 {
+  font-size: clamp(1.45rem, 3vw, 2.6rem);
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+}
+
+.timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.timeline button {
+  background: #000000;
+  min-width: 78px;
+}
+
+.timeline button:hover,
+.timeline button.is-active {
+  background: #ffffff;
+  color: #000000;
+}
+
+.graph-wrap {
+  min-height: 100vh;
+  position: relative;
+}
+
+#empire-map {
   display: block;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
 }
 
-.archive-timeline span {
-  font-size: 11px;
-  opacity: 0.72;
+.link {
+  stroke: rgba(255, 255, 255, 0.48);
+  stroke-width: 1.2;
 }
 
+.link.is-minor-link {
+  stroke-dasharray: 2 6;
+  stroke-width: 1;
+}
+
+.cross-link {
+  fill: none;
+  opacity: 0;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.42);
+  stroke-dasharray: 2 8;
+  stroke-width: 1.2;
+}
+
+.show-cross-links .cross-link {
+  opacity: 1;
+}
+
+.node rect {
+  cursor: grab;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.node.is-minor-node rect {
+  stroke-dasharray: 2 5;
+  stroke-width: 1.2;
+}
+
+.node text {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 400;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: #000000;
+  stroke-width: 5px;
+}
+
+.node.is-dimmed {
+  opacity: 0.22;
+}
+
+.link.is-dimmed,
+.cross-link.is-dimmed {
+  opacity: 0.06;
+}
+
+.node.is-selected rect {
+  fill: #ffffff;
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.node.is-selected text {
+  fill: #ffffff;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .study-panel {
+    border-bottom: 1px solid var(--line);
+    border-right: 0;
+    box-shadow: none;
+  }
+
+  h1 {
+    max-width: none;
+  }
+
+  .map-stage {
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .filter-bar .timeline {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .graph-wrap,
+  #empire-map {
+    min-height: 100vh;
+  }
+}
