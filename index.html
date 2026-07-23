@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Global Cable Network</title>
+  <link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+</head>
+<body><main>
+  <div id="globe"></div>
+  <aside class="timeline" aria-label="Cable activation timeline">
+    <span class="timeline-max">2026</span>
+    <input id="year-slider" type="range" min="1989" max="2026" value="2026" step="1" aria-label="Ready for service year">
+    <span class="timeline-min">1989</span>
+    <strong id="selected-year">2026</strong>
+    <small id="year-count"></small>
+  </aside>
+  <aside id="landing-info" class="landing-info" hidden aria-live="polite">
+    <button id="close-info" class="close-info" type="button" aria-label="Close details">×</button>
+    <p class="info-label">LANDING POINT</p>
+    <h2 id="info-name"></h2>
+    <dl>
+      <div><dt>Cable ID</dt><dd id="info-id"></dd></div>
+      <div><dt>Country</dt><dd id="info-country"></dd></div>
+      <div><dt>Latitude</dt><dd id="info-lat"></dd></div>
+      <div><dt>Longitude</dt><dd id="info-lng"></dd></div>
+    </dl>
+  </aside>
+</main><script src="globe-annotated.js"></script></body>
+</html>
